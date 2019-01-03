@@ -1,5 +1,5 @@
 package my.miniproject.chatClient;
 
-public class ChatUser {
+public class ChatClientHandler {
 
 }
