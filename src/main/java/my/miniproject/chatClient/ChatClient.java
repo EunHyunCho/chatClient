@@ -37,7 +37,7 @@ public class ChatClient {
         }catch(Exception e){
             System.out.println("연결이 끊어졌습니다.");
         }finally {
-            try{socket.close();}catch(Exception e){}
+            chatUser.close();
         }
 
 
