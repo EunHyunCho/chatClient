@@ -2,15 +2,15 @@ package my.miniproject.chatClient;
 
 public class ChatClientHandler extends Thread{
     private ChatUser chatUser;
-
-    public ChatClientHandler(ChatUser chatUser) {
+    public ChatClientHandler(ChatUser chatUser){
         this.chatUser = chatUser;
     }
 
     public void run(){
         while(true){
-            String message = chatUser.read();
-            System.out.println(message);
+            String line = chatUser.read();// 서버가 보내주는 정보를 읽어들인다.
+            System.out.println(line);
         }
     }
 }
+
