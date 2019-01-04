@@ -5,47 +5,69 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 
 public class ChatUser {
-    private String nickName;
+    private String nickname;
     private Socket socket;
-    private DataInputStream in = null;
-    private DataOutputStream out = null;
+    private DataInputStream in;
+    private DataOutputStream out;
 
-    public ChatUser(String nickName, Socket socket) {
-        this.nickName = nickName;
+    public ChatUser(Socket socket){
         this.socket = socket;
-        try {
+        try{
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-        }catch(Exception e){
-            System.out.println("생성오류");
+        }catch(Exception ex){
+            throw new RuntimeException("ChatUser생성시 오류");
         }
     }
 
     public void close(){
-        try{in.close();}catch (Exception e){}
-        try{out.close();}catch (Exception e){}
-        try{socket.close();}catch (Exception e){}
+        try{ in.close();}catch (Exception ignore){}
+        try{ out.close();}catch (Exception ignore){}
+        try{ socket.close();}catch (Exception ignore){}
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void write(String message) {
-       try{
-           out.writeUTF(message);
-           out.flush();
-       }catch (Exception e){
-           System.out.println("메세지 전송오류");
-       }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String read() {
+    public Socket getSocket() {
+        return socket;
+    }
 
+    public DataInputStream getIn() {
+        return in;
+    }
+
+    public void setIn(DataInputStream in) {
+        this.in = in;
+    }
+
+    public DataOutputStream getOut() {
+        return out;
+    }
+
+    public void setOut(DataOutputStream out) {
+        this.out = out;
+    }
+
+    public void write(String msg){
+        try {
+            out.writeUTF(msg);
+            out.flush();
+        }catch(Exception ex){
+            throw new RuntimeException("메시지 전송시 오류");
+        }
+    }
+
+    public String read(){
         try{
-          return in.readUTF();
-        }catch (Exception e) {
-            throw new RuntimeException("메세지 읽기오류");
+            return in.readUTF();
+        }catch(Exception ex){
+            throw new RuntimeException("메시지 읽을 때 오류");
         }
     }
 }

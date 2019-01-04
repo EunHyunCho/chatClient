@@ -6,41 +6,43 @@ import java.net.Socket;
 
 public class ChatClient {
     private String ip;
-    private int portNum;
+    private int port;
 
-    public ChatClient(String ip, int portNum) {
+    public ChatClient(String ip, int port) {
         this.ip = ip;
-        this.portNum = portNum;
+        this.port = port;
     }
 
-    public void run(){
+    public void run() {
         Socket socket = null;
         ChatUser chatUser = null;
         BufferedReader br = null;
-
-        try{
+        try {
             br = new BufferedReader(new InputStreamReader(System.in));
-            socket = new Socket(ip, portNum);
+            socket = new Socket(ip, port); // 서버에 접속
+            chatUser = new ChatUser(socket);
 
-            System.out.println("닉네임을 입력하세요(수정불가): ");
-            String nickname = br.readLine();
-            chatUser = new ChatUser(nickname, socket);
+            System.out.println("닉네임을 입력하세요.");
+            String nickName = br.readLine();
+            chatUser.setNickname(nickName);
+            chatUser.write(nickName);
+            System.out.println("내이름: "+nickName);
+            //비밀번호 추가해 주세요 추가
+            //비밀번호 쓴 후 방에 입장 메세지 추가
+            //상대방 비밀번호 쓰라는 것 추가
 
             ChatClientHandler chatClientHandler = new ChatClientHandler(chatUser);
             chatClientHandler.start();
 
-            while(true){
-                String message = br.readLine();
-                chatUser.write(message);
+            while (true) {
+                String line = br.readLine();
+                chatUser.write(line);
             }
-
-        }catch(Exception e){
+        } catch (Exception ex) {
+            // 접속이 끊어지면 Exception;
             System.out.println("연결이 끊어졌습니다.");
-        }finally {
+        } finally {
             chatUser.close();
         }
-
-
-
     }
 }
