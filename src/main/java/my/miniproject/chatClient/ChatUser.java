@@ -34,6 +34,8 @@ public class ChatUser {
         this.nickname = nickname;
     }
 
+    // 소켓에서 Read, Write만 해주는 것이라면, 해당 관련된 Getter, Setter는 수정 부탁드립니다.
+
     public Socket getSocket() {
         return socket;
     }
