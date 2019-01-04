@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+// 클라이언트 프로젝트에서 불필요한 클래스는 삭제 부탁드립니다.
 public class ChatHouse {
     private List<ChatUser> lobby;
     private List<ChatRoom> chatRooms;
